@@ -14,11 +14,6 @@
 #define IOCENT 1
 #define IORIGH 2
 
-void I_LEFT(WINDOW *win, int y, int x, int size, char *input);
-void I_CENT(WINDOW *win, int y, int x, int size, char *input);
-void I_RIGH(WINDOW *win, int y, int x, int size, char *input);
-
-
 /* ############## OUTPUT ############## */
 
 void printmsg(WINDOW *win, int y, int x, const char *msg, const int option){
@@ -30,18 +25,23 @@ void printmsg(WINDOW *win, int y, int x, const char *msg, const int option){
 
     /* Print message char by char*/
     for (int i = 0; i < msg_len; i++){
-        /* Just print every character one by one from the left */
-        if (option == IOLEFT)
-            mvwaddch(win, y, x + i, msg[i]);
-        /* Print every character one by one, but move the string so it stays in the center*/
-        else if (option == IOCENT)
-            for(int j = 0; j <= i; j++)
-                mvwaddch(win, y, (x - i/2 + j), msg[j]);
-        /* Just print every character one by one from the right*/    
-        else
-            for(int j = 0; j <= i; j++)
-                mvwaddch(win, y, x - i + j, msg[j]);
-
+        switch(option){
+            /* Just print every character one by one from the left */
+            case IOLEFT:
+                mvwaddch(win, y, x + i, msg[i]);
+                break;
+            /* Print every character one by one, but move the string so it stays in the center*/
+            case IOCENT:
+                for(int j = 0; j <= i; j++)
+                    mvwaddch(win, y, (x - i/2 + j), msg[j]);
+                break;
+            /* Just print every character one by one from the right*/    
+            case IORIGH:
+                for(int j = 0; j <= i; j++)
+                    mvwaddch(win, y, x - i + j, msg[j]);
+                break;
+        }
+        
         refresh();
 
         /* After printing every character, take a break for a nice efect of printing */
@@ -67,37 +67,45 @@ void printmsg(WINDOW *win, int y, int x, const char *msg, const int option){
 /* NOTE: In every option input is printed char by char, because this way provide much simpler
    implementation of handling input echoing.  */
 
-char* take_input(WINDOW *win, int y, int x, int size, void (*option)(WINDOW*, int, int, int, char*)){
+char* take_input(WINDOW *win, int y, int x, int size, int option){
     char* input;
+    char ch;                              
     input = calloc(size, sizeof(int));          // Maximum size has to be predefined, because of performance
+    noecho();
+    wmove(win, y, x);
 
-    option(win, y, x, size, input);            
+    switch(option){
+        case IOLEFT:
+            for(int i = 0; (ch = getch()) != 10; i++)
+                if(i < size){
+                    input[i] = ch;
+                    waddch(win, input[i]);
+                }
+            break;
+
+
+        case IOCENT:
+            for(int i = 0; (ch = getch()) != 10; i++)
+                if(i < size){
+                    input[i] = ch;
+                    wmove(win, y, x - i/2);
+                    for (int j = 0; j <= i; j++)
+                        waddch(win, input[j]);
+                }
+            break;
+
+
+        case IORIGH:
+            for (int i = 0; (ch = getch()) != 10; i++)
+                if (i < size){
+                    input[i] = ch;
+                    for (int j = 0; j <= i; j++)
+                        mvwaddch(win, y, x - i + j, input[j]);              // use mvwaddch insted of waddch, because the                                                                    // beggining of the echo needs to be moved every
+                }                                                           // time user enters character    
+            break;
+    }
     
+
     return input;
 }
 
-void I_LEFT(WINDOW *win, int y, int x, int size, char *input){
-    wmove(win, y, x);
-        for(int i = 0; (input[i] = getch()) != 10; i++)
-            if(i < size)
-                waddch(win, input[i]);
-}
-
-
-void I_CENT(WINDOW *win, int y, int x, int size, char *input){
-    for(int i = 0; (input[i] = getch()) != 10; i++)
-        if(i < size){
-            wmove(win, y, x - i/2);
-            for (int j = 0; j <= i; j++)
-                waddch(win, input[j]);
-        }
-}
-
-
-void I_RIGH(WINDOW *win, int y, int x, int size, char *input){
-    for (int i = 0; (input[i] = getch()) != 10; i++)
-        if (i < size)
-            for (int j = 0; j <= i; j++)
-                mvwaddch(win, y, x - i + j, input[j]);              // use mvwaddch insted of waddch, because the 
-}                                                                   // beggining of the echo needs to be moved every
-                                                                    // time user enters character
