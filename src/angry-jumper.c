@@ -13,7 +13,8 @@ int main() {
 
     init_curses();              // Initialize curses and set up basic curses parameters
 
-    main_menu(username);z
+    main_menu(username);        // from menu.c
+    clear();    
 
     end_curses();
 }
