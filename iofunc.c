@@ -1,3 +1,6 @@
+#ifndef _AN_IOFUNC_C
+#define _AN_IOFUNC_C
+
 #include <curses.h>
 #include <string.h>
 #include <stdlib.h>
@@ -16,7 +19,7 @@
 
 /* ############## OUTPUT ############## */
 
-void printmsg(WINDOW *win, int y, int x, const char *msg, const int option){
+void print_msg(WINDOW *win, int y, int x, const char *msg, const int option){
     int msg_len;
 
     /* save some basic parameters */
@@ -71,7 +74,6 @@ char* take_input(WINDOW *win, int y, int x, int size, int option){
     char* input;
     char ch;                              
     input = calloc(size, sizeof(int));          // Maximum size has to be predefined, because of performance
-    noecho();
     wmove(win, y, x);
 
     switch(option){
@@ -108,4 +110,6 @@ char* take_input(WINDOW *win, int y, int x, int size, int option){
 
     return input;
 }
+
+#endif
 
