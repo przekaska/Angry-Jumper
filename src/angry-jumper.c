@@ -7,14 +7,28 @@
 #include "iofunc.c"
 #include "menu.c"
 #include "setup_curses.c"
+#include "levels.c"
 
-int main() {
+
+
+int main(){
     char* username;
+    int control;
+    char level1[5000];
 
     init_curses();              // Initialize curses and set up basic curses parameters
 
-    main_menu(username);        // from menu.c
-    clear();    
+    /* TODO: Make welcome screen*/
+    main_menu(username);        // from menu.c   
+    read_level("levels/level1.txt", level1);
+
+    resizeterm(40, 80);
+    
+    move(0, 0);
+    for(int i = 0; i < 5000; i++)
+        addch(level1[i]);
+    refresh();
+
 
     end_curses();
 }

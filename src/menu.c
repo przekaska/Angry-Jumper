@@ -10,6 +10,7 @@ void main_menu(char* name){
     print_msg(stdscr, LINES / 2 - 1, COLS / 2, "ENTER YOUR NAME", IOCENT);
     take_input(stdscr, LINES / 2 + 1, COLS / 2, 16, IOCENT);
 
+    clear();
     attroff(A_BOLD);
 }
 

@@ -7,7 +7,7 @@
 
 #ifdef __linux__
     #include <unistd.h>
-    #define IODELAY 70000
+    #define IODELAY 50000
 #elif _WIN32
     #include <Windows.h>
     #define IODELAY 70
