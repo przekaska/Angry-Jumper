@@ -10,26 +10,27 @@
 #include "levels.c"
 
 
-
 int main(){
     char* username;
     int control;
-    char level1[5000];
+    char level1[SCENE_COLS * SCENE_LINES * LV1_SCENES_NUMBER];
 
     init_curses();              // Initialize curses and set up basic curses parameters
+    
+    if(getmaxy(stdscr) <= SCENE_LINES || getmaxx(stdscr) <= SCENE_COLS){
+        printf("Your terminal is to small. Resize window");
+        end_curses();
+        exit(-1);
+    }
 
     /* TODO: Make welcome screen*/
     main_menu(username);        // from menu.c   
     read_level("levels/level1.txt", level1);
+    print_level(level1);
 
-    resizeterm(40, 80);
-    
-    move(0, 0);
-    for(int i = 0; i < 5000; i++)
-        addch(level1[i]);
     refresh();
 
-
+    getch();
     end_curses();
 }
 
