@@ -8,7 +8,7 @@
 #include "menu.c"
 #include "setup_curses.c"
 #include "levels.c"
-
+#include "objects.c"
 
 int main(){
     char* username;
@@ -27,6 +27,7 @@ int main(){
     main_menu(username);        // from menu.c   
     read_level("levels/level1.txt", level1);
     print_level(level1);
+    add_object(stdscr, 0, 0, OB_CLOUD5);
 
     refresh();
 
