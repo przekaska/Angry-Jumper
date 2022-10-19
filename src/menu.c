@@ -3,7 +3,7 @@
 
 #include "iofunc.c"
 
-/* Menu showed at the beginning. It gets username from the user */
+/* Menu showed at the beginning. It takes username from the user */
 void main_menu(char* name){
     attron(A_BOLD);
 
