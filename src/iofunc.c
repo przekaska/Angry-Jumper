@@ -19,12 +19,17 @@
 
 /* ############## OUTPUT ############## */
 
+/*  This function prints message in three different ways:
+    1. Animated from the left (option == IOLEFT)
+    2. Animated, so the text stays in the center (option == IOCENT)
+    3. Animated from the right to the left (option == IORIGH) */
+
 void print_msg(WINDOW *win, int y, int x, const char *msg, const int option){
     int msg_len;
 
     /* save some basic parameters */
-    msg_len = strlen(msg);                          // Save these parameters because
-                                                    // they'll be used multiple times
+    msg_len = strlen(msg);                          // Save message lenght because
+                                                    // it'll be used multiple times
 
     /* Print message char by char*/
     for (int i = 0; i < msg_len; i++){
