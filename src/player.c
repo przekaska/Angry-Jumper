@@ -3,46 +3,26 @@
 
 #include <curses.h>
 
-#define STD_Y 30
-#define STD_X 10
+/* Starting positions */
+#define INIT_Y 20
+#define INIT_X 10
 
 
 struct Player{
-    char* skin;
+    char skin;
     int y;
-
-    /* MOVES */
-    char *idle;
-    char *jump; 
-    char *fall;
-
-    char* move;
+    int x;
 };
 
-
+/* Set default player values*/
 struct Player *init_player(){
-    static char idle[32] = {};
-
-    static char jump[32] = {1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 0,
-                     0, 0, -1, 0, 0, -1, -1, 0, -1, -1, -1, 0, -1, -1, -1};
-
-    static char fall[32] = {0, 0, -1, 0, 0, -1, -1, 0, -1, -1, -1, 0, -1, -1, -1,
-                  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
-    
 
     static struct Player player;
-    player.skin = "O";
-    player.y = STD_Y;
-    player.idle = idle;
-    player.jump = jump;
-    player.fall = fall;
-
+    player.skin = 'O';
+    player.y = INIT_Y;
+    player.x = INIT_X;  
 
     return &player;
-}
-
-void player_jump(int y){
-
 }
 
 #endif
