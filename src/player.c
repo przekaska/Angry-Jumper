@@ -52,9 +52,7 @@ struct Player *init_player(){
 
 
 void jump(struct Player *player){
-
-    for(int i = 0; i < MOVES_SIZE; i++)
-        player->moves[i] = 1;
+    memset(player->moves, 1, MOVES_SIZE);
 
     player->is_standing = false;
     player->is_falling = false;          
@@ -80,8 +78,7 @@ void change_y(struct Player *player){
 
 
 void reset_mv_buffer(struct Player *player){
-    for(int i = 0; i < 4; i++)
-        player->moves[i] = 0;
+    memset(player->moves, 0, MOVES_SIZE);
     player->is_reset = true;
 }
 

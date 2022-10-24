@@ -34,9 +34,10 @@ void draw_platforms(struct Player *player, struct Objects *objects, int i){
 
 
 void check_if_standing(struct Player *player, struct Objects *objects, int i){
-    if(player->is_falling && player->x >= objects->platforms[i + 1] && player->x <= (objects->platforms[i + 1] + objects->platforms[i + 2]))
-        if(player->previous_y >= objects->platforms[i] + 1 && player->y <= objects->platforms[i] + 1)
-            player->is_standing = true;
+    if(player->is_falling)
+        if(player->x >= objects->platforms[i + 1] && player->x <= (objects->platforms[i + 1] + objects->platforms[i + 2]))
+            if(player->previous_y >= objects->platforms[i] + 1 && player->y <= objects->platforms[i] + 1)
+                player->is_standing = true;
 }
 
 #endif
