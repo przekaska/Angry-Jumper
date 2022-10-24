@@ -3,26 +3,94 @@
 
 #include <curses.h>
 
-/* Starting positions */
+#include "window.c"
+
 #define INIT_Y 20
 #define INIT_X 10
 
+#define MOVES_SIZE 4
 
 struct Player{
     char skin;
     int y;
+    int previous_y;
     int x;
+
+    char *moves;
+    int move_iterator;
+    int change_iterator;
+    int bg_element_buffer;
+
+    bool is_standing;
+    bool is_falling;
+    bool is_reset;
 };
 
 /* Set default player values*/
 struct Player *init_player(){
+    static char move[MOVES_SIZE] = {};
 
     static struct Player player;
+
     player.skin = 'O';
     player.y = INIT_Y;
+    player.previous_y = 0;
     player.x = INIT_X;  
+
+    player.moves = move;
+    player.move_iterator = 0;
+    player.change_iterator = 0;
+
+    player.is_standing = false; 
+    player.is_falling = true;
+    player.is_reset = false;
+
+    player.bg_element_buffer = 32;
 
     return &player;
 }
+
+
+void jump(struct Player *player){
+
+    for(int i = 0; i < MOVES_SIZE; i++)
+        player->moves[i] = 1;
+
+    player->is_standing = false;
+    player->is_falling = false;          
+    player->move_iterator = 0;
+    player->change_iterator = 0;
+}
+
+
+void change_y(struct Player *player){
+    if(player->move_iterator > MOVES_SIZE){
+        player->move_iterator = 0;
+        player->change_iterator++;
+        if(player->change_iterator == MOVES_SIZE){
+            player->change_iterator = 0;
+            player->is_falling = true;
+        }
+        player->moves[player->change_iterator] -= 1;
+    }
+    player->y += player->moves[player->move_iterator];
+    player->is_reset = false;
+}
+
+
+
+void reset_mv_buffer(struct Player *player){
+    for(int i = 0; i < 4; i++)
+        player->moves[i] = 0;
+    player->is_reset = true;
+}
+
+
+void draw_player(struct Player *player){
+    mvaddch(WINDOW_HEIGHT - player->previous_y, INIT_X, player->bg_element_buffer);
+    player->bg_element_buffer = A_CHARTEXT & mvwinch(stdscr, WINDOW_HEIGHT - player->y, INIT_X);    
+    mvaddch(WINDOW_HEIGHT - player->y, INIT_X, player->skin + player->is_standing * 32);
+}
+
 
 #endif
