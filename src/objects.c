@@ -6,38 +6,52 @@
 #include <time.h>
 
 #include "window.c"
+#include "player.c"
 
-struct Objects{
-    int *platforms;
-};
+#define PLATFORMS_SIZE 15
 
-struct Objects *init_objects(){ 
-    static int platforms[16] = {    3,      20,     50, 
-                                    9,      80,     80, 
-                                    3,      150,    50, 
-                                    12,     120,    150, 
-                                    1,      180,    120, 
-                                    -1};
+#define BUILDING_BLOCK 'T'
 
-    static struct Objects _objects;
 
-    _objects.platforms = platforms; 
-
-    return &_objects;
+int *init_platforms(){                      /*  Y       b-X     e-X  */
+    static int platforms[PLATFORMS_SIZE] = {     5,      30,     80, 
+                                                3,      60,     180, 
+                                                6,      200,    230, 
+                                                10,     250,    350, 
+                                                2,      300,    350 };
+    return platforms;
 }
 
 
-void draw_platforms(struct Player *player, struct Objects *objects, int i){
-    mvaddch(WINDOW_HEIGHT - objects->platforms[i], objects->platforms[i + 1] - player->x + INIT_X, 'T');
-    mvaddch(WINDOW_HEIGHT - objects->platforms[i], objects->platforms[i + 1] - player->x + objects->platforms[i + 2] + INIT_X, ' ');
+void draw_platforms(struct Player *player, int *platforms, int i){
+    mvaddch(WINDOW_HEIGHT - platforms[i], platforms[i + 1] - player->x + INIT_X, BUILDING_BLOCK);
+    mvaddch(WINDOW_HEIGHT - platforms[i], platforms[i + 2] - player->x + INIT_X, ' ');
 }
 
 
-void check_if_standing(struct Player *player, struct Objects *objects, int i){
-    if(player->is_falling)
-        if(player->x >= objects->platforms[i + 1] && player->x <= (objects->platforms[i + 1] + objects->platforms[i + 2]))
-            if(player->previous_y >= objects->platforms[i] + 1 && player->y <= objects->platforms[i] + 1)
-                player->is_standing = true;
+void check_if_standing(struct Player *player, int *platforms, int i){
+    if(!player->is_rising)  
+        if(player->x >= platforms[i + 1] && player->x <= platforms[i + 2])
+            if(player->previous_y >= platforms[i] + 1 &&  player->y <= platforms[i] + 1){
+                player->is_standing = true;          
+                if(!player->is_reset){
+                    player->y = platforms[i] + 1;
+                    player->bg_element_buffer = ' ';
+                    mvaddch(WINDOW_HEIGHT - platforms[i], INIT_X, 'T');
+                }
+            }
 }
+
+
+void platforms_generator(int *platforms){
+    srand(time(NULL));
+
+    
+}
+
+
+
+
 
 #endif
+
