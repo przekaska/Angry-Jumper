@@ -43,7 +43,7 @@ void check_if_standing(struct Player *player, int *platforms, int i){
 }
 
 
-void print_whole_platforms(int* platforms){
+void draw_whole_platforms(int* platforms){
     for(int i = 0; platforms[i + 1] < WINDOW_WIDTH; i += 3)
         for(int j = platforms[i + 1]; j < platforms[i + 2]; j++)
             mvaddch(WINDOW_HEIGHT - platforms[i], j, BUILDING_BLOCK);

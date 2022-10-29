@@ -17,7 +17,7 @@
 void game_loop(struct Player *player, int *platforms){
     char key;
 
-    print_whole_platforms(platforms);
+    draw_whole_platforms(platforms);
     while((key = getch()) != 10){   
 
         player->is_standing = false; 
@@ -25,8 +25,8 @@ void game_loop(struct Player *player, int *platforms){
             draw_platforms(player, platforms, i);                        
             check_if_standing(player, platforms, i);
         }
-
         player->previous_y = player->y; 
+
 
         if((key == 'w' || key == 'W' || key == 3) && player->is_standing)
             jump(player);
