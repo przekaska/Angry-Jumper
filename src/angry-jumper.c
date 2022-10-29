@@ -14,32 +14,33 @@
 #include "window.c"
 
 
-void game_loop(struct Player *player, struct Objects *objects){
+void game_loop(struct Player *player, int *platforms){
     char key;
 
     while((key = getch()) != 10){   
-        
-        player->is_standing = false;
-        for(int i = 0; objects->platforms[i] != -1; i += 3){
-            draw_platforms(player, objects, i);                        
-            check_if_standing(player, objects, i);
+
+        player->is_standing = false; 
+        for(int i = 0; i < PLATFORMS_SIZE; i += 3){
+            draw_platforms(player, platforms, i);                        
+            check_if_standing(player, platforms, i);
         }
 
-        if(key == 3 && player->is_standing)
+        player->previous_y = player->y; 
+
+        if((key == 'w' || key == 'W' || key == 3) && player->is_standing)
             jump(player);
 
-        if(key == 2 && player->is_standing)
+        if((key == 's' || key == 'S' || key == 2) && player->is_standing)
             player->y -= 1;
 
         if(!player->is_standing)
             change_y(player);
         
         if(player->is_standing && !player->is_reset)
-            reset_mv_buffer(player);
-               
+            reset_mv_buffer(player);       
+        
         draw_player(player);
 
-        player->previous_y = player->y;
         player->x++;
         player->move_iterator++;
         refresh();
@@ -51,7 +52,7 @@ void game_loop(struct Player *player, struct Objects *objects){
 int main(){
     char* username;
     struct Player *player = init_player();
-    struct Objects *objects = init_objects();
+    int *objects = init_platforms();
 
     init_curses();
     check_win_size();

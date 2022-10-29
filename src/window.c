@@ -3,8 +3,8 @@
 
 #include <curses.h>
 
-#define WINDOW_HEIGHT 25
-#define WINDOW_WIDTH 80
+#define WINDOW_HEIGHT 20
+#define WINDOW_WIDTH 70
 
 void check_win_size(){
     if(getmaxy(stdscr) <= WINDOW_HEIGHT || getmaxx(stdscr) <= WINDOW_WIDTH){

@@ -22,11 +22,11 @@ struct Player{
     int bg_element_buffer;
 
     bool is_standing;
-    bool is_falling;
+    bool is_rising;
     bool is_reset;
 };
 
-/* Set default player values*/
+
 struct Player *init_player(){
     static char move[MOVES_SIZE] = {};
 
@@ -42,7 +42,7 @@ struct Player *init_player(){
     player.change_iterator = 0;
 
     player.is_standing = false; 
-    player.is_falling = true;
+    player.is_rising = false;
     player.is_reset = false;
 
     player.bg_element_buffer = 32;
@@ -50,12 +50,11 @@ struct Player *init_player(){
     return &player;
 }
 
-
 void jump(struct Player *player){
     memset(player->moves, 1, MOVES_SIZE);
 
     player->is_standing = false;
-    player->is_falling = false;          
+    player->is_rising = true;
     player->move_iterator = 0;
     player->change_iterator = 0;
 }
@@ -67,7 +66,7 @@ void change_y(struct Player *player){
         player->change_iterator++;
         if(player->change_iterator == MOVES_SIZE){
             player->change_iterator = 0;
-            player->is_falling = true;
+            player->is_rising = false;
         }
         player->moves[player->change_iterator] -= 1;
     }
