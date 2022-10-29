@@ -17,6 +17,7 @@
 void game_loop(struct Player *player, int *platforms){
     char key;
 
+    print_whole_platforms(platforms);
     while((key = getch()) != 10){   
 
         player->is_standing = false; 
