@@ -43,7 +43,6 @@ void game_loop(struct Player *player, int *platforms){
         draw_player(player);
 
         player->x++;
-        refresh();
         usleep(33333);
     }
 }

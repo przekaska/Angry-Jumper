@@ -85,7 +85,7 @@ void reset_mv_buffer(struct Player *player){
 
 void draw_player(struct Player *player){
     mvaddch(WINDOW_HEIGHT - player->previous_y, INIT_X, player->bg_element_buffer);
-    player->bg_element_buffer = A_CHARTEXT & mvwinch(stdscr, WINDOW_HEIGHT - player->y, INIT_X);    
+    player->bg_element_buffer = mvwinch(stdscr, WINDOW_HEIGHT - player->y, INIT_X);    
     mvaddch(WINDOW_HEIGHT - player->y, INIT_X, player->skin + player->is_standing * 32);
 }
 

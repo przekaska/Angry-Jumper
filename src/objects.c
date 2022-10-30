@@ -14,8 +14,8 @@
 
 
 int *init_platforms(){                      /*  Y       b-X     e-X  */
-    static int platforms[PLATFORMS_SIZE] = {     5,      30,     80, 
-                                                3,      60,     180, 
+    static int platforms[PLATFORMS_SIZE] = {    5,      30,     80, 
+                                                5,      123,    180, 
                                                 6,      200,    230, 
                                                 10,     250,    350, 
                                                 2,      300,    350 };
@@ -53,6 +53,7 @@ void draw_whole_platforms(int* platforms){
 void platforms_generator(int *platforms){
     srand(time(NULL));
 
+
     
 }
 
@@ -63,4 +64,4 @@ void platforms_generator(int *platforms){
 
 
 #endif
-
+    
