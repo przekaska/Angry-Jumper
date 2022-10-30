@@ -45,7 +45,7 @@ struct Player *init_player(){
     player.is_rising = false;
     player.is_reset = false;
 
-    player.bg_element_buffer = 32;
+    player.bg_element_buffer = ' ';
 
     return &player;
 }
@@ -61,6 +61,7 @@ void jump(struct Player *player){
 
 
 void change_y(struct Player *player){
+    player->move_iterator++;
     if(player->move_iterator > MOVES_SIZE){
         player->move_iterator = 0;
         player->change_iterator++;
