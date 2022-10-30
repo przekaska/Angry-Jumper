@@ -25,7 +25,7 @@ int *init_platforms(){                      /*  Y       b-X     e-X  */
 
 void draw_platforms(struct Player *player, int *platforms, int i){
     mvaddch(WINDOW_HEIGHT - platforms[i], platforms[i + 1] - player->x + INIT_X, BUILDING_BLOCK);
-    mvaddch(WINDOW_HEIGHT - platforms[i], platforms[i + 2] - player->x + INIT_X, ' ');
+    mvaddstr(WINDOW_HEIGHT - platforms[i], platforms[i + 2] - player->x + INIT_X, "   ");
 }
 
 
