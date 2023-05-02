@@ -1,1 +1,1 @@
-Ncurses based game
+Unfinished ncurses based game
